@@ -2,13 +2,13 @@ ___INFO___
 
 {
   "type": "TAG",
-  "id": "semavo_cmp",
+  "id": "cookiezen_cmp",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Semavo CMP - Consent Management",
+  "displayName": "CookieZen CMP - Consent Management Platform",
   "brand": {
-    "id": "brand_semavo",
-    "displayName": "Semavo",
+    "id": "brand_cookiezen",
+    "displayName": "CookieZen",
     "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKLSURBVHgBxVfLcRNBFOxZ+aYD4gaIKkZOADuDJQJMBnYEQAS2MkARyI4AE4E3A0QCeA4rF1UcWB+4ANqh30pyaccz+5HW5a5SSbvz6Z438/qNgEeGqmp8prWOgOOaCbIcMP/4+WnMDB0LiHtQV2iOjFNeLpBf/DAmaTIgQrcYAPZYRA/1/lQiWDegawEbWAqpE7FX1dhjSC2sQUMoKO280iJioPVhZkzmH9MRXuj9UwV75mvjIsY3xnjbOtmCKnIBI/M+3LYDGNpBH9Ep1/ihri8Fvkk9mbF1BCRF+1BffeQkG7vvFsCBb57WAoR4qEdXK3/QPvLUs98Rote++SqzwCUmKcONONQnRC6wyJ9iGwFNiImM5O/SCvfjYXuCNgLEQEg8rSEm7OQ3cBbK8zrsBchl1Z9RWGuQOOGqxmlDz28soK4A0VQueXInuxJ7BWyE3QN1zio3ZpUz6BAlAfR+OWza6bM6YNcJHgDOFqj4fpfCwVpfNFoLGGotTqU3G7nfX24ekLwkgAdL506jBRJsCfF+Z66sUkDuSbkoMKgJ0rZXMh9ZXukD1ZCMkmpZ1+8uAn+BWQ+uOvWWX5/QnHRt23KeWKqBvh4ZbkgSSuHSfYBV7hecVYfqeIA4ruhmFpzLFVEqxzz1E3eUpTE91/oIAWJmz3TlnDGq4TW5UgRk2/7wkqE8dZ6Yif/zNN8qRK/4W8J8gJZwI3rvSvaSq7Lt/oy4FOeKf0xs4aA4ssutKbXPzfeToIC1iJzhCkQiBInQydwxLrk9obw9Zm6uR+sH75VMQpQXRmIvUO8FbLcfOenh3Oua9pvzQm8+NLoVLyOCWBUZEvFmk9/yteHzrC5DxAsGTmaZjivqTvgPJ7j2hemjsvUAAAAASUVORK5CYII="
   },
   "description": "Consent Management Platform with Google Consent Mode v2. Automatically blocks trackers and manages user consent with configurable per-region defaults.",
