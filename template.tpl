@@ -193,7 +193,10 @@ const copyFromWindow = require('copyFromWindow');
 const setInWindow = require('setInWindow');
 const makeInteger = require('makeInteger');
 const encodeUriComponent = require('encodeUriComponent');
+const decodeUriComponent = require('decodeUriComponent');
 const queryPermission = require('queryPermission');
+const getCookieValues = require('getCookieValues');
+const JSON = require('JSON');
 
 const siteKey = data.siteKey;
 const apiUrl = data.apiUrl || 'https://cz-cdn.com';
@@ -329,10 +332,40 @@ if (adsDataRedaction === 'always') {
 setInWindow('__cmp_url_passthrough_set', true, true);
 debugLog('Privacy settings configured', {urlPassthrough: urlPassthrough, adsDataRedaction: adsDataRedaction});
 
+var lastConsentState = null;
+
+// === 2.5. RETURNING USER: INSTANT CONSENT RESTORE ===
+// Read stored consent directly from cookie — no need to wait for Loader/Banner async loading.
+// This makes updateConsentState fire synchronously during Consent Initialization (fastest possible).
+if (queryPermission('get_cookies', 'cmp_consent')) {
+  var cookieValues = getCookieValues('cmp_consent');
+  if (cookieValues && cookieValues.length > 0) {
+    try {
+      var decoded = decodeUriComponent(cookieValues[0]);
+      var stored = JSON.parse(decoded);
+      if (stored && stored.finalized && stored.categories) {
+        var gcmRestore = mapCategoriesToGCM(stored.categories);
+        updateConsentState(gcmRestore);
+
+        lastConsentState = gcmRestore.ad_storage + gcmRestore.analytics_storage +
+                           gcmRestore.ad_user_data + gcmRestore.ad_personalization +
+                           gcmRestore.functionality_storage + gcmRestore.personalization_storage +
+                           gcmRestore.security_storage;
+
+        if (adsDataRedaction === 'dynamic') {
+          gtagSet('ads_data_redaction', !stored.categories.marketing);
+        }
+        debugLog('Returning user: consent restored from cookie', gcmRestore);
+      }
+    } catch(e) {
+      debugLog('Failed to parse stored consent cookie');
+    }
+  }
+}
+
 // === 3. BRIDGE CALLBACK (before injectScript) ===
 // GTM sandbox has no setTimeout — polling CMP.onChange is impossible.
 // Instead: set a global callback that Banner picks up after loading and registering CMP API.
-var lastConsentState = null;
 
 setInWindow('__cmp_onChange_callback', function(categories) {
   var gcmUpdate = mapCategoriesToGCM(categories);
@@ -941,6 +974,39 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "ads_data_redaction"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "cookieAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "cookieNames",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "cmp_consent"
               }
             ]
           }
