@@ -1,5 +1,5 @@
 homepage: "https://cookiezen.pl"
 documentation: "https://cookiezen.pl/dokumentacja"
 versions:
-  - sha: 6854f1ed28d03e4cbee6c2c0636f3d37af7eea81
+  - sha: 825867afb66c4766115cadfa8c2ac02555fa12b9
     changeNotes: "CookieZen CMP v1. Google Consent Mode v2, per-region defaults, ads_data_redaction, url_passthrough, MutationObserver-based tracker blocking."
