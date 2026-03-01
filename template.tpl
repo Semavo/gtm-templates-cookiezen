@@ -235,13 +235,20 @@ function mapCategoriesToGCM(categories) {
   return gcm;
 }
 
-// Helper: "PL, DE, FR" → ["PL","DE","FR"]
+function trimStr(s) {
+  var start = 0;
+  var end = s.length - 1;
+  while (start <= end && s.charAt(start) === ' ') start++;
+  while (end >= start && s.charAt(end) === ' ') end--;
+  return start > end ? '' : s.substring(start, end + 1);
+}
+
 function getRegionArr(regionStr) {
   if (!regionStr) return [];
   var parts = regionStr.split(',');
   var result = [];
   for (var i = 0; i < parts.length; i++) {
-    var trimmed = parts[i].replace(/^\s+|\s+$/g, '');
+    var trimmed = trimStr(parts[i]);
     if (trimmed) result.push(trimmed);
   }
   return result;
