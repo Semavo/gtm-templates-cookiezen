@@ -1,0 +1,5 @@
+homepage: "https://cookiezen.pl"
+documentation: "https://cookiezen.pl/dokumentacja"
+versions:
+  - sha: 34012cd818080aac5765645380e4f33be4e3b34f
+    changeNotes: "Initial release. Google Consent Mode v2 with per-region defaults, ads_data_redaction, url_passthrough. Loads CMP Loader for MutationObserver-based tracker blocking."
