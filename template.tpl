@@ -1,3 +1,11 @@
+﻿___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+
 ___INFO___
 
 {
@@ -9,7 +17,7 @@ ___INFO___
   "brand": {
     "id": "brand_cookiezen",
     "displayName": "CookieZen",
-    "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKLSURBVHgBxVfLcRNBFOxZ+aYD4gaIKkZOADuDJQJMBnYEQAS2MkARyI4AE4E3A0QCeA4rF1UcWB+4ANqh30pyaccz+5HW5a5SSbvz6Z438/qNgEeGqmp8prWOgOOaCbIcMP/4+WnMDB0LiHtQV2iOjFNeLpBf/DAmaTIgQrcYAPZYRA/1/lQiWDegawEbWAqpE7FX1dhjSC2sQUMoKO280iJioPVhZkzmH9MRXuj9UwV75mvjIsY3xnjbOtmCKnIBI/M+3LYDGNpBH9Ep1/ihri8Fvkk9mbF1BCRF+1BffeQkG7vvFsCBb57WAoR4qEdXK3/QPvLUs98Rote++SqzwCUmKcONONQnRC6wyJ9iGwFNiImM5O/SCvfjYXuCNgLEQEg8rSEm7OQ3cBbK8zrsBchl1Z9RWGuQOOGqxmlDz28soK4A0VQueXInuxJ7BWyE3QN1zio3ZpUz6BAlAfR+OWza6bM6YNcJHgDOFqj4fpfCwVpfNFoLGGotTqU3G7nfX24ekLwkgAdL506jBRJsCfF+Z66sUkDuSbkoMKgJ0rZXMh9ZXukD1ZCMkmpZ1+8uAn+BWQ+uOvWWX5/QnHRt23KeWKqBvh4ZbkgSSuHSfYBV7hecVYfqeIA4ruhmFpzLFVEqxzz1E3eUpTE91/oIAWJmz3TlnDGq4TW5UgRk2/7wkqE8dZ6Yif/zNN8qRK/4W8J8gJZwI3rvSvaSq7Lt/oy4FOeKf0xs4aA4ssutKbXPzfeToIC1iJzhCkQiBInQydwxLrk9obw9Zm6uR+sH75VMQpQXRmIvUO8FbLcfOenh3Oua9pvzQm8+NLoVLyOCWBUZEvFmk9/yteHzrC5DxAsGTmaZjivqTvgPJ7j2hemjsvUAAAAASUVORK5CYII="
+    "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKLSURBVHgBxVfLcRNBFOxZ+aYD4gaIKkZOADuDJQJMBnYEQAS2MkARyI4AE4E3A0QCeA4rF1UcWB+4ANqh30pyaccz+5HW5a5SSbvz6Z438/qNgEeGqmp8prWOgOOaCbIcMP/4+WnMDB0LiHtQV2iOjFNeLpBf/DAmaTIgQrcYAPZYRA/1/lQiWDegawEbWAqpE7FX1dhjSC2sQUMoKO280iJioPVhZkzmH9MRXuj9UwV75mvjIsY3xnjbOtmCKnIBI/M+3LYDGNpBH9Ep1/ihri8Fvkk9mbF1BCRF+1BffeQkG7vvFsCBb57WAoR4qEdXK3/QPvLUs98Rote++SqzwCUmKcONONQnRC6wyJ9iGwFNiImM5O/SCvfjYXuCNgLEQEg8rSEm7OQ3cBbK8zrsBchl1Z9RWGuQOOGqxmlDz28soK4A0VQueXInuxJ7BWyE3QN1zio3ZpUz6BAlAfR+OWza6bM6YNcJHgDOFqj4fpfCwVpfNFoLGGotTqU3G7nfX24ekLwkgAdL506jBRJsCfF+Z66sUkDuSbkoMKgJ0rZXMh9ZXukD1ZCMkmpZ1+8uAn+BWQ+uOvWWX5/QnHRt23KeWKqBvh4ZbkgSSuHSfYBV7hecVYfqeIA4ruhmFpzLFVEqxzz1E3eUpTE91/oIAWJmz3TlnDGq4TW5UgRk2/7wkqE8dZ6Yif/zNN8qRK/4W8J8gJZwI3rvSvaSq7Lt/oy4FOeKf0xs4aA4ssutKbXPzfeToIC1iJzhCkQiBInQydwxLrk9obw9Zm6uR+sH75VMQpQXRmIvUO8FbLcfOenh3Oua9pvzQm8+NLoVLyOCWBUZEvFmk9/yteHzrC5DxAsGTmaZjivqTvgPJ7j2hemjsvUAAAAASUVORK5CYII\u003d"
   },
   "description": "Consent Management Platform with Google Consent Mode v2. Automatically blocks trackers and manages user consent with configurable per-region defaults.",
   "containerContexts": [
@@ -89,7 +97,7 @@ ___TEMPLATE_PARAMETERS___
         "simpleTableColumns": [
           {
             "defaultValue": "",
-            "displayName": "Region (kody ISO, puste = globalny)",
+            "displayName": "Region (kody ISO, puste \u003d globalny)",
             "name": "region",
             "type": "TEXT"
           },
@@ -142,7 +150,7 @@ ___TEMPLATE_PARAMETERS___
             ]
           }
         ],
-        "help": "Domyślne stany zgód per region. Puste pole Region = globalny default. Kody ISO oddzielone przecinkami (np. PL, DE, FR). Marketing = ad_storage + ad_user_data + ad_personalization. Analytics = analytics_storage. Preferences = functionality_storage + personalization_storage.",
+        "help": "Domyślne stany zgód per region. Puste pole Region \u003d globalny default. Kody ISO oddzielone przecinkami (np. PL, DE, FR). Marketing \u003d ad_storage + ad_user_data + ad_personalization. Analytics \u003d analytics_storage. Preferences \u003d functionality_storage + personalization_storage.",
         "newRowButtonText": "Dodaj region"
       }
     ]
@@ -159,7 +167,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "API URL (opcjonalne)",
         "simpleValueType": true,
         "defaultValue": "https://cz-cdn.com",
-        "help": "Domyślnie https://cz-cdn.com. Zmień tylko dla self-hosted. UWAGA: Zmiana URL wymaga ręcznej edycji uprawnień 'Inject Script' w edytorze szablonu GTM."
+        "help": "Domyślnie https://cz-cdn.com. Zmień tylko dla self-hosted. UWAGA: Zmiana URL wymaga ręcznej edycji uprawnień \u0027Inject Script\u0027 w edytorze szablonu GTM."
       },
       {
         "type": "CHECKBOX",
@@ -978,3 +986,5 @@ Advanced:
 
 Flow: GTM → Loader → Banner → CMP.onChange → updateConsentState
 Trigger: Consent Initialization - All Pages
+
+
