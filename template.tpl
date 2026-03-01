@@ -341,7 +341,7 @@ if (queryPermission('get_cookies', 'cmp_consent')) {
   var cookieValues = getCookieValues('cmp_consent');
   if (cookieValues && cookieValues.length > 0 && cookieValues[0]) {
     var decoded = decodeUriComponent(cookieValues[0]);
-    var stored = decoded ? JSON.parse(decoded) : null;
+    var stored = (decoded && decoded.charAt(0) === '{') ? JSON.parse(decoded) : null;
     if (stored && stored.finalized && stored.categories &&
         (stored.categories.marketing || stored.categories.analytics || stored.categories.preferences)) {
       var gcmRestore = mapCategoriesToGCM(stored.categories);
