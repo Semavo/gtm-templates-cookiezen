@@ -339,26 +339,22 @@ var lastConsentState = null;
 // This makes updateConsentState fire synchronously during Consent Initialization (fastest possible).
 if (queryPermission('get_cookies', 'cmp_consent')) {
   var cookieValues = getCookieValues('cmp_consent');
-  if (cookieValues && cookieValues.length > 0) {
-    try {
-      var decoded = decodeUriComponent(cookieValues[0]);
-      var stored = JSON.parse(decoded);
-      if (stored && stored.finalized && stored.categories) {
-        var gcmRestore = mapCategoriesToGCM(stored.categories);
-        updateConsentState(gcmRestore);
+  if (cookieValues && cookieValues.length > 0 && cookieValues[0]) {
+    var decoded = decodeUriComponent(cookieValues[0]);
+    var stored = decoded ? JSON.parse(decoded) : null;
+    if (stored && stored.finalized && stored.categories) {
+      var gcmRestore = mapCategoriesToGCM(stored.categories);
+      updateConsentState(gcmRestore);
 
-        lastConsentState = gcmRestore.ad_storage + gcmRestore.analytics_storage +
-                           gcmRestore.ad_user_data + gcmRestore.ad_personalization +
-                           gcmRestore.functionality_storage + gcmRestore.personalization_storage +
-                           gcmRestore.security_storage;
+      lastConsentState = gcmRestore.ad_storage + gcmRestore.analytics_storage +
+                         gcmRestore.ad_user_data + gcmRestore.ad_personalization +
+                         gcmRestore.functionality_storage + gcmRestore.personalization_storage +
+                         gcmRestore.security_storage;
 
-        if (adsDataRedaction === 'dynamic') {
-          gtagSet('ads_data_redaction', !stored.categories.marketing);
-        }
-        debugLog('Returning user: consent restored from cookie', gcmRestore);
+      if (adsDataRedaction === 'dynamic') {
+        gtagSet('ads_data_redaction', !stored.categories.marketing);
       }
-    } catch(e) {
-      debugLog('Failed to parse stored consent cookie');
+      debugLog('Returning user: consent restored from cookie', gcmRestore);
     }
   }
 }
