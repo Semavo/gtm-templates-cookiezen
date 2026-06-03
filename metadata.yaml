@@ -1,6 +1,8 @@
 homepage: "https://cookiezen.pl"
 documentation: "https://cookiezen.pl/dokumentacja"
 versions:
+  - sha: f7c8d8e726be95d54c2c8c75a0f07e0949c24567
+    changeNotes: "v1.3: Google CMP Partner developer_id (dNzRkNm) via gtagSet before consent defaults."
   - sha: cb4adb38cbeb6ceda644d0805e6386fa80e9e06a
     changeNotes: "v1.2: Updated CookieZen logo and shortened template display name to CookieZen CMP."
   - sha: 9b1ce22123373ba3567e467b660f9477ce2ada55
