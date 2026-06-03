@@ -264,6 +264,10 @@ function getRegionArr(regionStr) {
   return result;
 }
 
+// Google CMP Partner developer ID — przed setDefaultConsentState (vendor identification).
+// Sync z lib/google-cmp-developer-id.ts (GOOGLE_CMP_DEVELOPER_ID).
+gtagSet('developer_id.dNzRkNm', true);
+
 // === 1. DEFAULT CONSENT STATE (per region) ===
 debugLog('Setting default consent state');
 
