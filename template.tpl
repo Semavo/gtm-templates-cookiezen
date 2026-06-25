@@ -29,6 +29,7 @@ ___INFO___
   ]
 }
 
+
 ___TEMPLATE_PARAMETERS___
 
 [
@@ -264,6 +265,26 @@ function getRegionArr(regionStr) {
   return result;
 }
 
+// Sanitizes site_key into a safe cookie name — MUST match the CookieZen runtime
+// (loader-runtime.ts / banner-runtime.ts use replace(/[^A-Za-z0-9_-]/g,'')).
+// The GTM sandbox has no regex, so we filter character by character (like trimStr).
+// Today the format is site_<base36> (a no-op), but this guard keeps the cookie name
+// legal and consistent with the name written by CMP if the format ever changes.
+function sanitizeSiteKey(s) {
+  if (!s) return '';
+  var out = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s.charAt(i);
+    var isLower = ch >= 'a' && ch <= 'z';
+    var isUpper = ch >= 'A' && ch <= 'Z';
+    var isDigit = ch >= '0' && ch <= '9';
+    if (isLower || isUpper || isDigit || ch === '_' || ch === '-') {
+      out += ch;
+    }
+  }
+  return out;
+}
+
 // Google CMP Partner developer ID — przed setDefaultConsentState (vendor identification).
 // Sync z lib/google-cmp-developer-id.ts (GOOGLE_CMP_DEVELOPER_ID).
 gtagSet('developer_id.dNzRkNm', true);
@@ -340,8 +361,20 @@ var lastConsentState = null;
 // === 2.5. RETURNING USER: INSTANT CONSENT RESTORE ===
 // Read stored consent directly from cookie — no need to wait for Loader/Banner async loading.
 // This makes updateConsentState fire synchronously during Consent Initialization (fastest possible).
-if (queryPermission('get_cookies', 'cmp_consent')) {
-  var cookieValues = getCookieValues('cmp_consent');
+//
+// The consent cookie is keyed per site_key: cmp_consent_<siteKey> (e.g.
+// cmp_consent_site_abc123). It MUST match loader-runtime.ts / banner-runtime.ts,
+// otherwise the fast-path won't find the stored consent and the update would fire
+// late (banner bridge, after Window Loaded) — exactly the regression this fixes.
+//
+// Safety: the GTM sandbox JSON.parse / decodeUriComponent return undefined (they do
+// NOT throw) on invalid input, so a corrupted/foreign cookie won't halt the template
+// and injectScript (loader, section 4) always runs. Fail-closed: missing/invalid
+// cookie => GCM stays at the privacy-safe 'denied' until the loader/banner update.
+var consentCookieName = 'cmp_consent_' + sanitizeSiteKey(siteKey);
+if (queryPermission('get_cookies', consentCookieName)) {
+  // decode=false: decode once, manually below (parity with banner-runtime.ts).
+  var cookieValues = getCookieValues(consentCookieName, false);
   if (cookieValues && cookieValues.length > 0 && cookieValues[0]) {
     var decoded = decodeUriComponent(cookieValues[0]);
     var stored = (decoded && decoded.charAt(0) === '{') ? JSON.parse(decoded) : null;
@@ -358,6 +391,14 @@ if (queryPermission('get_cookies', 'cmp_consent')) {
       if (adsDataRedaction === 'dynamic') {
         gtagSet('ads_data_redaction', !stored.categories.marketing);
       }
+
+      // Signal to the loader (lib/loader-runtime.ts): Google consent already restored
+      // synchronously from the cookie — the loader MUST skip its own early
+      // gtag('consent','update') to avoid a duplicate Google signal. The loader still
+      // emits UET/Clarity independently. Set ONLY on a real restore (granted) — for an
+      // all-denied user the flag stays unset so the loader sends an explicit denied update.
+      setInWindow('__cmp_consent_restored', true, true);
+
       debugLog('Returning user: consent restored from cookie', gcmRestore);
     }
   }
@@ -944,6 +985,45 @@ ___WEB_PERMISSIONS___
                     "boolean": false
                   }
                 ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "__cmp_consent_restored"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
               }
             ]
           }
@@ -1000,19 +1080,7 @@ ___WEB_PERMISSIONS___
           "key": "cookieAccess",
           "value": {
             "type": 1,
-            "string": "specific"
-          }
-        },
-        {
-          "key": "cookieNames",
-          "value": {
-            "type": 2,
-            "listItem": [
-              {
-                "type": 1,
-                "string": "cmp_consent"
-              }
-            ]
+            "string": "any"
           }
         }
       ]
@@ -1037,9 +1105,21 @@ CookieZen CMP - Google Tag Manager Community Template
 This template:
 1. Sets per-region default consent state (all 7 GCM v2 types) BEFORE any tags fire
 2. Configures url_passthrough and ads_data_redaction
-3. Loads the CMP Loader (MutationObserver blocking, fail-safe, heartbeat)
-4. Registers a bridge callback for CMP.onChange (no setTimeout in GTM sandbox)
-5. Updates consent state in GTM when user interacts with the banner
+3. Returning users: restores Google consent SYNCHRONOUSLY from the cmp_consent_<siteKey>
+   cookie during Consent Initialization (fastest possible update, no wait for async Loader/Banner)
+4. Loads the CMP Loader (MutationObserver blocking, fail-safe, heartbeat)
+5. Registers a bridge callback for CMP.onChange (no setTimeout in GTM sandbox)
+6. Updates consent state in GTM when user interacts with the banner
+
+v1.3.2 changes:
+- Consent cookie is keyed per site_key (cmp_consent_<siteKey>) to match the CookieZen
+  Loader/Banner runtime. The get_cookies permission uses "any" cookie access: GTM's
+  "specific" mode does not support a wildcard cookie name, so queryPermission returned
+  false for the dynamic cmp_consent_<siteKey> name and the fast-path was silently skipped.
+  The code still reads only that one cookie name.
+- On a successful synchronous restore the template sets window.__cmp_consent_restored=true
+  so the Loader skips its own early Google consent update (no duplicate signal). Microsoft
+  UET/Clarity updates remain Loader-driven.
 
 Configuration:
 - Site Key: Your site key from CookieZen dashboard (e.g. site_abc123)
@@ -1054,7 +1134,7 @@ Advanced:
 - API URL: Default https://cz-cdn.com (change only for self-hosted)
 - Debug Mode: Enables console logging
 
-Flow: GTM → Loader → Banner → CMP.onChange → updateConsentState
+Flow: GTM → (returning user: restore from cookie) → Loader → Banner → CMP.onChange → updateConsentState
 Trigger: Consent Initialization - All Pages
 
 
