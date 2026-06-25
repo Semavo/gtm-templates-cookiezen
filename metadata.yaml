@@ -1,6 +1,8 @@
 homepage: "https://cookiezen.pl"
 documentation: "https://cookiezen.pl/dokumentacja"
 versions:
+  - sha: 797392ad54b6ae03bbae72c8c3cd4b04c7e06d9d
+    changeNotes: "v1.3.2: Fix — returning-user consent fast-path now reads the per-site cookie name (cmp_consent_<siteKey>); get_cookies widened to 'any' because GTM 'specific' mode has no wildcard for cookie names; sets window.__cmp_consent_restored so the loader skips a duplicate Google consent update."
   - sha: d80de2f76566f64de98996d12867e887fb58f6d9
     changeNotes: "v1.3.1: Hotfix — write_data_layer permission for developer_id.* (fixes tag failure after v1.3 Gallery update)."
   - sha: 10c6045e55310e5207e7b4120485ff49603bc6c3
